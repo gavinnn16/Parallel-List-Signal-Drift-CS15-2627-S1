@@ -5,3 +5,59 @@ expected = [
 received = [
     41, 67, 89, 6, 40, 40, 55, 4, 80, 26, 24, 21, 60, 59, 85, 98, 49, 53, 22, 28, 86, 47, 12, 21, 17, 39, 48, 33, 19, 50, 11, 86, 84, 62, 14, 41, 1, 71, 10, 83, 34, 82, 58, 8, 8, 46, 31, 4, 83, 58, 87, 100, 53, 21, 56, 53, 73, 22, 70, 14, 50, 101, 63, 20, 59, 3, 61, 5, 18, 58, 85, 68, 89, 55, 65, 50, 14, 104, 2, 1, 47, 27, 6, 88, 6, 43, 77, 13, 43, 66, 11, 93, 94, 53, 68, 6, 53, 36, 101, 81, 40, 12, 3, 63, 16, 14, 66, 103, 76, 50, 83, 35, 24, 9, 43, 11, 70, 21, 64, 13, 26, 72, 57, 10, 50, 84, 21, 27, 53, 7, 4, 58, 61, 19, 82, 3, 90, 10, 13, 67, 73, 27, 83, 80, 80, 32, 88, 61, 109, 30, 54, 70, 103, 92, 18, 80, 18, 96, 91, 76, 79, 67, 14, 76, 5, 83, 45, 35, 93, 18, 82, 78, 6, 61, 56, 15, 26, 88, 13, 81, 92, 59, 22, 54, 35, 76, 20, 56, 24, 15, 34, 77, 38, 34, 83, 86, 70, 48, 30, 29
 ]
+
+
+drift = []
+total = 0
+positive_count = 0
+negative_count = 0
+excellent_threshold =(input("Enter the excellent threshold value (number): "))
+acceptable_threshold = (input("Enter the acceptable threshold value (number): "))
+
+
+
+if excellent_threshold.isnumeric():
+    excellent_threshold = int(excellent_threshold)
+else:
+    print("Error: Excellent threshold must be a number.")
+    exit()
+
+
+
+if acceptable_threshold.isnumeric():
+    acceptable_threshold = int(acceptable_threshold)
+else:
+    print("Error: Acceptable threshold must be a number.")
+    exit()
+
+if acceptable_threshold < excellent_threshold:
+    print("Error: Acceptable threshold cannot be less than excellent threshold.")
+    exit()
+
+for i in range(len(expected)):
+    diff = abs(expected[i] - received[i])
+    drift.append(diff)
+    total += diff
+    print(f"Expected: {expected[i]}, Received: {received[i]}, Drift: {diff}\n")
+
+    if received[i] > expected[i]:
+        positive_count += 1
+    elif received[i] < expected[i]:
+        negative_count += 1
+
+    if diff <= excellent_threshold:
+        print(f"Drift {diff} is excellent.\n")
+    elif diff <= acceptable_threshold:
+        print(f"Drift {diff} is acceptable.\n")
+    else:
+        print(f" Drift {diff} is poor.\n")
+
+
+avg = total / len(drift)
+print(f"Total Drift: {total}")
+print(f"Average Drift: {avg}")
+print(f"Positive Drift Count: {positive_count}")
+print(f"Negative Drift Count: {negative_count}")
+
+
+

@@ -7,5 +7,19 @@ received = [
 ]
 
 
+drift = []
+total = 0
+
+for i in range(len(expected)):
+    diff = abs(expected[i] - received[i])
+    drift.append(diff)
+    total += diff
+    print(f"Expected: {expected[i]}, Received: {received[i]}, Drift: {diff}\n")
+
+avg = total / len(drift)
+print(f"Total Drift: {total}")
+print(f"Average Drift: {avg}")
+
+
 
 
